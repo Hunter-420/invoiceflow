@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               Demo SaaS Mode
             </span>
             <span className="hidden sm:inline text-[#64748B]">
-              Stripe Test Mode · Plan: {subscription.plan.toUpperCase()}
+              Stripe Test Mode | Plan: {subscription.plan.toUpperCase()}
             </span>
           </div>
 

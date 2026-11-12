@@ -36,9 +36,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="space-y-14 sm:space-y-16 pb-14 sm:pb-16">
+    <div className="space-y-12 sm:space-y-14 pb-12 sm:pb-14">
       {/* Hero Section (Figma node 3:2 / PDF Page 1) */}
-      <section className="px-4 sm:px-8 pt-8 sm:pt-12 max-w-7xl mx-auto">
+      <section className="px-4 sm:px-8 pt-6 sm:pt-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
           {/* Left Column */}
           <div className="lg:col-span-6 space-y-5">
