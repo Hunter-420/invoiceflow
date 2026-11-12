@@ -15,79 +15,36 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="size-8 rounded-lg bg-[#4F46E5] flex items-center justify-center text-white">
-                <FileText className="size-4" />
-              </div>
-              <span className="font-extrabold text-lg text-[#0F172A]">
-                InvoiceFlow
-              </span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
+          <div className="flex items-center gap-2">
+            <div className="size-6 rounded-md bg-[#4F46E5] text-white flex items-center justify-center font-bold text-xs">
+              I
             </div>
-            <p className="text-xs text-[#64748B] text-pretty leading-relaxed">
-              Automated invoice tracking, client relationship management, and instant Stripe-powered payments for modern freelancers.
+            <p className="tabular-nums font-medium text-[#0F172A]">
+              © 2026 InvoiceFlow · Demo project
             </p>
           </div>
 
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#0F172A]">
-              Application
-            </h4>
-            <ul className="space-y-1.5 text-xs text-[#64748B]">
-              {['dashboard', 'invoices', 'clients', 'billing'].map((tab) => (
-                <li key={tab}>
-                  <button
-                    onClick={() => onNavigate(tab)}
-                    className="hover:text-[#4F46E5] transition-colors capitalize"
-                  >
-                    {tab}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#0F172A]">
-              SaaS Packages
-            </h4>
-            <ul className="space-y-1.5 text-xs text-[#64748B]">
-              <li>
-                <button onClick={() => onNavigate('pricing')} className="hover:text-[#4F46E5]">
-                  Free Starter (3 clients)
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('pricing')} className="hover:text-[#4F46E5]">
-                  Pro Freelancer ($12/mo)
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('pricing')} className="hover:text-[#4F46E5]">
-                  Studio MVP ($29/mo)
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <div className="space-y-2.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#0F172A]">
-              Architecture
-            </h4>
-            <p className="text-xs text-[#64748B] text-pretty leading-relaxed">
-              Proves Premium Package deliverables: Authentication, Database CRUD, Subscription Billing, Admin Accounts, and PDF Invoicing.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-10 pt-6 border-t border-[#E2E8F0] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#64748B]">
-          <p className="tabular-nums">&copy; 2026 InvoiceFlow MVP. Concept demonstration.</p>
-          <div className="flex gap-4">
-            <span className="hover:underline cursor-pointer">Security Protocol</span>
-            <span className="hover:underline cursor-pointer">Stripe Test Terms</span>
-            <span className="hover:underline cursor-pointer">API Integration</span>
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => onNavigate('landing')}
+              className="hover:text-[#0F172A] transition-colors"
+            >
+              Privacy
+            </button>
+            <button
+              onClick={() => onNavigate('pricing')}
+              className="hover:text-[#0F172A] transition-colors"
+            >
+              Terms
+            </button>
+            <button
+              onClick={() => onNavigate('dashboard')}
+              className="hover:text-[#0F172A] transition-colors"
+            >
+              Contact
+            </button>
           </div>
         </div>
       </div>

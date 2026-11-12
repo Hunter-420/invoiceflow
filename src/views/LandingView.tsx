@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, Shield, Zap, TrendingUp, ChevronDown, ChevronUp, Star, CreditCard, Lock, Sparkles } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Shield, Zap, TrendingUp, ChevronDown, ChevronUp, Star, CreditCard, Lock, Sparkles, Check, FileText, Clock, BarChart3 } from 'lucide-react';
 
 interface LandingViewProps {
   onNavigate: (tab: string) => void;
@@ -36,277 +36,377 @@ export const LandingView: React.FC<LandingViewProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="space-y-24 pb-20">
-      {/* Hero Section */}
-      <section className="px-4 sm:px-8 pt-12 lg:pt-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EEF2FF] border border-[#C7D2FE]">
-              <span className="size-2 rounded-full bg-[#4F46E5]"></span>
-              <span className="text-xs font-bold text-[#4F46E5] uppercase tracking-wider">
-                Built for Independent Designers & Developers
-              </span>
-            </div>
-
-            <h1 className="font-sans font-extrabold text-4xl sm:text-5xl lg:text-6xl text-[#0F172A] leading-[1.08] tracking-tight text-balance">
-              Get paid on time, every time, without awkward chasing
+    <div className="space-y-20 pb-20">
+      {/* Hero Section (Figma node 3:2 / PDF Page 1) */}
+      <section className="px-4 sm:px-8 pt-12 lg:pt-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column */}
+          <div className="lg:col-span-6 space-y-6">
+            <h1 className="font-extrabold text-4xl sm:text-5xl lg:text-[56px] text-[#0F172A] leading-[1.1] tracking-tight text-balance">
+              Invoicing that gets you paid faster
             </h1>
 
-            <p className="text-lg sm:text-xl text-[#475569] leading-relaxed max-w-xl text-pretty">
-              Create branded invoices in under 60 seconds, accept instant credit card payments via Stripe, and monitor your monthly recurring revenue in one calm dashboard.
+            <p className="text-base sm:text-lg text-[#475569] leading-relaxed max-w-xl text-pretty">
+              Create professional invoices in seconds, send them to clients, and track every payment in one clean dashboard. No spreadsheets, no chasing.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
-                onClick={() => onNavigate('dashboard')}
+                onClick={() => onNavigate('signup')}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-sm shadow-primary transition-all active:scale-95"
               >
-                <span>Open Live Dashboard Demo</span>
+                <span>Start for free</span>
                 <ArrowRight className="size-4" />
               </button>
               <button
-                onClick={() => onNavigate('pricing')}
+                onClick={() => onNavigate('dashboard')}
                 className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] font-bold text-sm border border-[#CBD5E1] transition-colors"
               >
-                View Plans & Pricing
+                Watch 60s demo
               </button>
-            </div>
-
-            {/* Proof Signals */}
-            <div className="pt-6 border-t border-[#E2E8F0] flex flex-wrap items-center gap-8 text-xs text-[#64748B]">
-              <div className="flex items-center gap-2">
-                <div className="flex text-amber-500">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="size-3.5 fill-current" />
-                  ))}
-                </div>
-                <span className="font-bold text-[#0F172A] tabular-nums">4.9 / 5.0</span>
-                <span>(340+ freelancers)</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="size-4 text-[#4F6B3A]" />
-                <span className="font-medium">Average payout time: 3 days</span>
-              </div>
             </div>
           </div>
 
-          {/* Interactive Invoice Hero Visual Card */}
-          <div className="lg:col-span-5">
-            <div className="rounded-3xl bg-white border border-[#E2E8F0] p-6 sm:p-8 shadow-xl space-y-6 relative">
+          {/* Right Column (Hero Card Preview from PDF Page 1) */}
+          <div className="lg:col-span-6">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E2E8F0] shadow-xl space-y-6">
+              {/* Header */}
               <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-4">
-                <div>
-                  <span className="text-xs font-bold text-[#4F46E5] uppercase tracking-wider">Preview Invoice</span>
-                  <h3 className="font-extrabold text-xl text-[#0F172A]">INV-0153</h3>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-[#DDF3E4] text-[#14532D] text-xs font-bold">
-                  Sent · Net 14
+                <span className="font-extrabold text-lg text-[#0F172A]">This month</span>
+                <span className="px-2.5 py-1 rounded-full bg-[#DDF3E4] text-[#14532D] text-xs font-bold tabular-nums">
+                  +18% vs last month
                 </span>
               </div>
 
-              <div className="space-y-3 text-xs tabular-nums">
-                <div className="flex justify-between text-[#64748B]">
-                  <span>Client:</span>
-                  <span className="font-bold text-[#0F172A]">Northwind Studio (Maya Ellison)</span>
+              {/* 3 Metric Tiles */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="p-3.5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
+                  <span className="text-[11px] font-semibold text-[#64748B] block">Paid</span>
+                  <span className="font-extrabold text-lg sm:text-xl text-[#0F172A] tabular-nums block">
+                    $12,480
+                  </span>
                 </div>
-                <div className="flex justify-between text-[#64748B]">
-                  <span>Issue Date:</span>
-                  <span className="font-medium text-[#0F172A]">08 Nov 2026</span>
+                <div className="p-3.5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
+                  <span className="text-[11px] font-semibold text-[#64748B] block">Pending</span>
+                  <span className="font-extrabold text-lg sm:text-xl text-[#0F172A] tabular-nums block">
+                    $3,260
+                  </span>
                 </div>
-                <div className="flex justify-between text-[#64748B]">
-                  <span>Due Date:</span>
-                  <span className="font-medium text-[#0F172A]">22 Nov 2026</span>
-                </div>
-              </div>
-
-              {/* Line items mini table */}
-              <div className="rounded-xl border border-[#E2E8F0] overflow-hidden text-xs">
-                <div className="bg-slate-50 px-3 py-2 flex justify-between font-bold text-[#64748B] border-b border-[#E2E8F0]">
-                  <span>Description</span>
-                  <span>Amount</span>
-                </div>
-                <div className="p-3 space-y-2 tabular-nums">
-                  <div className="flex justify-between">
-                    <span className="text-[#0F172A] font-medium">Brand Identity Design Sprint</span>
-                    <span className="font-bold text-[#0F172A]">$1,800.00</span>
-                  </div>
-                  <div className="flex justify-between text-[#64748B]">
-                    <span>Collateral Revisions (3 hrs)</span>
-                    <span className="font-semibold text-[#0F172A]">$600.00</span>
-                  </div>
-                </div>
-                <div className="bg-[#EEF2FF] p-3 flex justify-between items-center border-t border-[#C7D2FE]">
-                  <span className="font-bold text-[#4F46E5]">Total with 15% GST:</span>
-                  <span className="font-extrabold text-base text-[#4F46E5] tabular-nums">$2,760.00</span>
+                <div className="p-3.5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1">
+                  <span className="text-[11px] font-semibold text-[#64748B] block">Overdue</span>
+                  <span className="font-extrabold text-lg sm:text-xl text-[#B91C1C] tabular-nums block">
+                    $840
+                  </span>
                 </div>
               </div>
 
-              <div className="pt-2 flex gap-3">
-                <button
-                  onClick={() => onNavigate('invoices')}
-                  className="w-full py-2.5 rounded-xl bg-[#4F46E5] text-white text-xs font-bold shadow-sm"
-                >
-                  Pay Invoice Preview
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+              {/* Recent Invoices List */}
+              <div className="space-y-3 pt-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#64748B] block">
+                  Recent invoices
+                </span>
 
-      {/* 3-Step How It Works */}
-      <section className="px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-bold text-[#4F46E5] uppercase tracking-wider">
-              Streamlined Workflow
-            </span>
-            <h2 className="font-sans font-extrabold text-3xl sm:text-4xl text-[#0F172A] text-balance">
-              From contract agreement to settled funds in 3 steps
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="rounded-3xl bg-white p-8 border border-[#E2E8F0] space-y-4 shadow-sm">
-              <span className="size-10 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center font-extrabold text-lg">
-                1
-              </span>
-              <h3 className="font-bold text-xl text-[#0F172A]">
-                Add or Select Client
-              </h3>
-              <p className="text-sm text-[#475569] leading-relaxed text-pretty">
-                Store client contact details, billing company name, and currency once. Search and attach in two keystrokes.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-8 border border-[#E2E8F0] space-y-4 shadow-sm">
-              <span className="size-10 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center font-extrabold text-lg">
-                2
-              </span>
-              <h3 className="font-bold text-xl text-[#0F172A]">
-                Draft Line Items with Live Tax Math
-              </h3>
-              <p className="text-sm text-[#475569] leading-relaxed text-pretty">
-                Add hourly or fixed line items. Subtotals, GST, and currency totals compute automatically in exact integer cents.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-8 border border-[#E2E8F0] space-y-4 shadow-sm">
-              <span className="size-10 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center font-extrabold text-lg">
-                3
-              </span>
-              <h3 className="font-bold text-xl text-[#0F172A]">
-                Share Link & Get Paid Directly
-              </h3>
-              <p className="text-sm text-[#475569] leading-relaxed text-pretty">
-                Clients pay via card with one click. Invoices instantly mark as paid, and metrics update on your revenue dashboard.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Pillars */}
-      <section className="px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto rounded-[36px] bg-[#0F172A] text-white p-8 sm:p-14 space-y-12">
-          <div className="max-w-2xl space-y-3">
-            <span className="text-xs font-bold text-[#818CF8] uppercase tracking-wider">
-              High-Craft SaaS Architecture
-            </span>
-            <h2 className="font-extrabold text-3xl sm:text-4xl text-white text-balance">
-              Built to withstand real freelance operations
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 border-t border-[#1E293B]">
-            <div className="space-y-3">
-              <div className="size-10 rounded-xl bg-[#1E293B] flex items-center justify-center text-[#818CF8]">
-                <Shield className="size-5" />
-              </div>
-              <h3 className="font-bold text-lg text-white">Row Level Security</h3>
-              <p className="text-xs sm:text-sm text-[#94A3B8] leading-relaxed text-pretty">
-                Strict multi-tenant boundary checks. User A can never inspect or alter User B invoices, clients, or billing tokens.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <div className="size-10 rounded-xl bg-[#1E293B] flex items-center justify-center text-[#818CF8]">
-                <CreditCard className="size-5" />
-              </div>
-              <h3 className="font-bold text-lg text-white">Stripe Webhook Sync</h3>
-              <p className="text-xs sm:text-sm text-[#94A3B8] leading-relaxed text-pretty">
-                Idempotent subscription webhooks handle upgrades, cancellations, and past-due statuses seamlessly.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <div className="size-10 rounded-xl bg-[#1E293B] flex items-center justify-center text-[#818CF8]">
-                <TrendingUp className="size-5" />
-              </div>
-              <h3 className="font-bold text-lg text-white">Integer-Cent Precision</h3>
-              <p className="text-xs sm:text-sm text-[#94A3B8] leading-relaxed text-pretty">
-                Eliminates JavaScript floating-point rounding errors. All calculations happen in integer cents with tabular numerals.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="px-4 sm:px-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <span className="text-xs font-bold text-[#4F46E5] uppercase tracking-wider">
-              Answers to Common Questions
-            </span>
-            <h2 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A] text-balance">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <div className="space-y-3">
-            {faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <div key={index} className="rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden">
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left gap-4 hover:bg-slate-50 transition-colors"
-                    aria-expanded={isOpen}
-                  >
-                    <span className="font-bold text-base text-[#0F172A]">{faq.q}</span>
-                    <span className="size-7 rounded-full bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center shrink-0">
-                      {isOpen ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className="px-6 pb-5 pt-1 text-sm text-[#475569] leading-relaxed text-pretty border-t border-[#E2E8F0]">
-                      {faq.a}
+                <div className="space-y-2">
+                  <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] flex items-center justify-between transition-all">
+                    <div>
+                      <span className="font-bold text-sm text-[#0F172A] block">Northwind Studio</span>
+                      <span className="text-[11px] text-[#64748B]">INV-0148</span>
                     </div>
-                  )}
+                    <div className="flex items-center gap-3">
+                      <span className="font-bold text-sm text-[#0F172A] tabular-nums">$2,400</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#DDF3E4] text-[#14532D] text-xs font-bold">
+                        Paid
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] flex items-center justify-between transition-all">
+                    <div>
+                      <span className="font-bold text-sm text-[#0F172A] block">Bloom & Co.</span>
+                      <span className="text-[11px] text-[#64748B]">INV-0147</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-bold text-sm text-[#0F172A] tabular-nums">$860</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] text-xs font-bold">
+                        Pending
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#CBD5E1] flex items-center justify-between transition-all">
+                    <div>
+                      <span className="font-bold text-sm text-[#0F172A] block">Atlas Labs</span>
+                      <span className="text-[11px] text-[#64748B]">INV-0146</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-bold text-sm text-[#0F172A] tabular-nums">$3,150</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#DDF3E4] text-[#14532D] text-xs font-bold">
+                        Paid
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              );
-            })}
+              </div>
+            </div>
           </div>
+        </div>
+
+        {/* Social Proof Text */}
+        <div className="text-center pt-16">
+          <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#64748B]">
+            Loved by 2,400+ freelancers and small studios
+          </p>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto rounded-[36px] bg-[#4F46E5] p-8 sm:p-14 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-primary">
-          <div className="space-y-2 max-w-xl">
-            <h2 className="font-extrabold text-3xl sm:text-4xl text-white text-balance">
-              Send your first branded invoice in 2 minutes
-            </h2>
-            <p className="text-sm sm:text-base text-indigo-100 text-pretty">
-              Try the live interactive demo or test client creation without any credit card required.
+      {/* EVERYTHING YOU NEED Section (PDF Page 1) */}
+      <section className="px-4 sm:px-8 max-w-7xl mx-auto space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#4F46E5] block">
+            EVERYTHING YOU NEED
+          </span>
+          <h2 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A]">
+            Built for people who bill clients
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div className="size-12 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center">
+              <Clock className="size-6" />
+            </div>
+            <h3 className="font-extrabold text-xl text-[#0F172A]">Create in seconds</h3>
+            <p className="text-sm text-[#475569] leading-relaxed text-pretty">
+              Reusable clients and line items turn a blank page into a finished invoice in under a minute.
             </p>
           </div>
+
+          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div className="size-12 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center">
+              <CreditCard className="size-6" />
+            </div>
+            <h3 className="font-extrabold text-xl text-[#0F172A]">Get paid online</h3>
+            <p className="text-sm text-[#475569] leading-relaxed text-pretty">
+              Clients pay by card through Stripe. Payment status syncs to your dashboard automatically.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm space-y-4 hover:shadow-md transition-shadow">
+            <div className="size-12 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center">
+              <BarChart3 className="size-6" />
+            </div>
+            <h3 className="font-extrabold text-xl text-[#0F172A]">Know where you stand</h3>
+            <p className="text-sm text-[#475569] leading-relaxed text-pretty">
+              Totals, overdue invoices and monthly revenue at a glance, with no spreadsheet needed.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING Section (PDF Page 1) */}
+      <section className="px-4 sm:px-8 max-w-7xl mx-auto space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#4F46E5] block">
+            PRICING
+          </span>
+          <h2 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A]">
+            Simple plans that grow with you
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+          {/* Free Tier */}
+          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-extrabold text-2xl text-[#0F172A]">Free</h3>
+                <p className="text-xs text-[#64748B] mt-1">For trying things out</p>
+              </div>
+
+              <div className="py-2 border-y border-[#E2E8F0]">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-extrabold text-4xl text-[#0F172A] tabular-nums">$0</span>
+                  <span className="text-xs text-[#64748B]">/ month</span>
+                </div>
+              </div>
+
+              <ul className="space-y-2.5 text-xs text-[#475569]">
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>3 clients</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>5 invoices / month</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Email delivery</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onClick={() => onNavigate('pricing')}
+              className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#0F172A] text-xs font-bold transition-colors"
+            >
+              Choose Free
+            </button>
+          </div>
+
+          {/* Pro Tier (Featured) */}
+          <div className="bg-white rounded-3xl p-8 border-2 border-[#4F46E5] shadow-xl flex flex-col justify-between space-y-6 relative">
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-[#4F46E5] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm">
+              Most popular
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-extrabold text-2xl text-[#0F172A]">Pro</h3>
+                <p className="text-xs text-[#64748B] mt-1">For busy freelancers</p>
+              </div>
+
+              <div className="py-2 border-y border-[#E2E8F0]">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-extrabold text-4xl text-[#0F172A] tabular-nums">$12</span>
+                  <span className="text-xs text-[#64748B]">/ month</span>
+                </div>
+              </div>
+
+              <ul className="space-y-2.5 text-xs text-[#475569]">
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Unlimited clients</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Unlimited invoices</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Stripe card payments</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Overdue reminders</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onClick={() => onNavigate('pricing')}
+              className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold uppercase tracking-wider shadow-primary transition-colors"
+            >
+              Start 14-day trial
+            </button>
+          </div>
+
+          {/* Studio Tier */}
+          <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-sm flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-extrabold text-2xl text-[#0F172A]">Studio</h3>
+                <p className="text-xs text-[#64748B] mt-1">For small teams</p>
+              </div>
+
+              <div className="py-2 border-y border-[#E2E8F0]">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-extrabold text-4xl text-[#0F172A] tabular-nums">$29</span>
+                  <span className="text-xs text-[#64748B]">/ month</span>
+                </div>
+              </div>
+
+              <ul className="space-y-2.5 text-xs text-[#475569]">
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Everything in Pro</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Team roles</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Admin dashboard</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="size-4 text-[#14532D]" />
+                  <span>Priority support</span>
+                </li>
+              </ul>
+            </div>
+
+            <button
+              onClick={() => onNavigate('pricing')}
+              className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#0F172A] text-xs font-bold transition-colors"
+            >
+              Choose Studio
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Send your first invoice in 2 minutes (PDF Page 1 Banner) */}
+      <section className="px-4 sm:px-8 max-w-7xl mx-auto">
+        <div className="bg-[#0F172A] text-white rounded-3xl p-10 sm:p-14 text-center space-y-6">
+          <div className="max-w-2xl mx-auto space-y-3">
+            <h2 className="font-extrabold text-3xl sm:text-4xl text-balance">
+              Send your first invoice in 2 minutes
+            </h2>
+            <p className="text-sm sm:text-base text-[#94A3B8] text-pretty">
+              Free plan, no credit card. Upgrade only when you need Stripe payments.
+            </p>
+          </div>
+
           <button
-            onClick={() => onNavigate('dashboard')}
-            className="px-8 py-4 rounded-xl bg-white hover:bg-indigo-50 text-[#4F46E5] font-extrabold text-sm transition-colors shadow-sm shrink-0"
+            onClick={() => onNavigate('signup')}
+            className="px-8 py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold uppercase tracking-wider shadow-primary transition-all active:scale-95 inline-flex items-center gap-2"
           >
-            Launch Interactive Dashboard
+            <span>Create free account</span>
+            <ArrowRight className="size-4" />
           </button>
+        </div>
+      </section>
+
+      {/* FAQ Accordion Section */}
+      <section className="px-4 sm:px-8 max-w-3xl mx-auto space-y-8">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#4F46E5] block">
+            Frequently Asked Questions
+          </span>
+          <h2 className="font-extrabold text-2xl sm:text-3xl text-[#0F172A]">
+            Everything you need to know
+          </h2>
+        </div>
+
+        <div className="space-y-3">
+          {faqs.map((faq, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden transition-all"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-sm text-[#0F172A] hover:bg-slate-50 transition-colors"
+                >
+                  <span>{faq.q}</span>
+                  {isOpen ? (
+                    <ChevronUp className="size-4 text-[#4F46E5] shrink-0" />
+                  ) : (
+                    <ChevronDown className="size-4 text-[#64748B] shrink-0" />
+                  )}
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-5 text-xs text-[#475569] leading-relaxed border-t border-slate-100 pt-3">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>

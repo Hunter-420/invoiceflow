@@ -15,8 +15,9 @@ export const LoginView: React.FC<LoginViewProps> = ({
 }) => {
   const [isSignUp, setIsSignUp] = useState(initialSignUp);
   const [fullName, setFullName] = useState('Nischal Khanal');
-  const [email, setEmail] = useState('nischal@invoiceflow.example');
+  const [email, setEmail] = useState('you@studio.com');
   const [password, setPassword] = useState('password123');
+  const [rememberMe, setRememberMe] = useState(true);
   const [isForgotOpen, setIsForgotOpen] = useState(false);
   const [forgotSent, setForgotSent] = useState(false);
 
@@ -32,50 +33,23 @@ export const LoginView: React.FC<LoginViewProps> = ({
 
   return (
     <div className="min-h-[calc(100dvh-5rem)] grid grid-cols-1 lg:grid-cols-12 bg-white">
-      {/* Left Column (Branded Showcase) */}
-      <div className="hidden lg:flex lg:col-span-5 bg-[#0F172A] text-white p-12 flex-col justify-between relative overflow-hidden">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <div className="size-9 rounded-xl bg-[#4F46E5] flex items-center justify-center text-white">
-              <FileText className="size-5" />
-            </div>
-            <span className="font-extrabold text-xl">InvoiceFlow</span>
-          </div>
-
-          <h2 className="font-extrabold text-3xl text-balance pt-8 leading-tight">
-            The calm invoicing tool designed for modern freelancers
-          </h2>
-          <p className="text-xs text-[#94A3B8] leading-relaxed max-w-sm">
-            Spend less time chasing unpaid accounts and more time crafting work. Automated Net 14 terms, instant card settlement, and clean revenue analytics.
-          </p>
-        </div>
-
-        <div className="p-6 rounded-2xl bg-[#1E293B] border border-[#334155] space-y-3">
-          <p className="text-xs text-[#E2E8F0] italic">
-            "InvoiceFlow cut my invoice settlement lag from 18 days down to 48 hours. The public payment link makes paying effortless for my clients."
-          </p>
-          <div className="flex items-center justify-between text-[11px] text-[#94A3B8]">
-            <span className="font-bold text-white">Maya Ellison</span>
-            <span>Founder, Northwind Studio</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Column: Form card (Figma node 6:135) */}
-      <div className="lg:col-span-7 p-8 sm:p-16 flex items-center justify-center bg-[#F8FAFC]">
-        <div className="max-w-md w-full space-y-8 bg-white p-8 sm:p-10 rounded-3xl border border-[#E2E8F0] shadow-sm">
+      {/* Left Column: Form Card (PDF Page 4) */}
+      <div className="lg:col-span-6 p-8 sm:p-16 flex items-center justify-center bg-white order-2 lg:order-1">
+        <div className="max-w-md w-full space-y-7">
           <div className="space-y-2">
-            <h1 className="font-extrabold text-3xl text-[#0F172A]">
-              {isSignUp ? 'Create your account' : 'Sign in to InvoiceFlow'}
+            <h1 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A] tracking-tight">
+              {isSignUp ? 'Create your account' : 'Welcome back'}
             </h1>
-            <p className="text-xs text-[#64748B]">
-              {isSignUp ? 'Start your 14-day test trial' : 'Access your active billing dashboard'}
+            <p className="text-xs sm:text-sm text-[#64748B]">
+              {isSignUp
+                ? 'Start invoicing and getting paid in minutes.'
+                : 'Log in to see what your clients owe you.'}
             </p>
           </div>
 
           {/* 1-Click Demo Accounts */}
-          <div className="p-4 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] space-y-2.5">
-            <span className="text-xs font-bold text-[#4F46E5] uppercase tracking-wider block">
+          <div className="p-3.5 rounded-2xl bg-[#EEF2FF] border border-[#C7D2FE] space-y-2">
+            <span className="text-[11px] font-bold text-[#4F46E5] uppercase tracking-wider block">
               1-Click Demo Logins:
             </span>
             <div className="grid grid-cols-3 gap-2">
@@ -112,44 +86,53 @@ export const LoginView: React.FC<LoginViewProps> = ({
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] bg-slate-50 text-xs text-[#0F172A]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] bg-slate-50 text-xs text-[#0F172A] focus:border-[#4F46E5] focus:outline-none"
                 />
               </div>
             )}
 
             <div className="space-y-1">
-              <label className="block text-xs font-bold text-[#0F172A] uppercase">Work Email</label>
+              <label className="block text-xs font-bold text-[#0F172A] uppercase">Email</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] bg-slate-50 text-xs text-[#0F172A]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] bg-slate-50 text-xs text-[#0F172A] focus:border-[#4F46E5] focus:outline-none"
               />
             </div>
 
             <div className="space-y-1">
-              <div className="flex justify-between">
-                <label className="block text-xs font-bold text-[#0F172A] uppercase">Password</label>
-                {!isSignUp && (
-                  <button
-                    type="button"
-                    onClick={() => setIsForgotOpen(!isForgotOpen)}
-                    className="text-[11px] text-[#4F46E5] hover:underline"
-                  >
-                    Forgot?
-                  </button>
-                )}
-              </div>
+              <label className="block text-xs font-bold text-[#0F172A] uppercase">Password</label>
               <input
                 type="password"
                 required
-                minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] bg-slate-50 text-xs text-[#0F172A]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#CBD5E1] bg-slate-50 text-xs text-[#0F172A] focus:border-[#4F46E5] focus:outline-none"
               />
             </div>
+
+            {!isSignUp && (
+              <div className="flex items-center justify-between text-xs pt-1">
+                <label className="flex items-center gap-2 cursor-pointer text-[#475569]">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="size-4 rounded border-slate-300 text-[#4F46E5] focus:ring-0"
+                  />
+                  <span>Remember me</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setIsForgotOpen(!isForgotOpen)}
+                  className="text-[#4F46E5] font-semibold hover:underline"
+                >
+                  Forgot password?
+                </button>
+              </div>
+            )}
 
             {isForgotOpen && !isSignUp && (
               <div className="p-3.5 rounded-xl bg-slate-100 border border-[#CBD5E1] space-y-2 text-xs">
@@ -176,11 +159,16 @@ export const LoginView: React.FC<LoginViewProps> = ({
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold uppercase tracking-wider shadow-primary transition-colors flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold uppercase tracking-wider shadow-primary transition-all active:scale-95 flex items-center justify-center gap-2"
             >
-              <span>{isSignUp ? 'Create Demo Account' : 'Sign In'}</span>
-              <ArrowRight className="size-4" />
+              <span>{isSignUp ? 'Create an account' : 'Log in'}</span>
             </button>
+
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-[#E2E8F0]" />
+              <span className="flex-shrink mx-4 text-xs text-[#94A3B8]">or</span>
+              <div className="flex-grow border-t border-[#E2E8F0]" />
+            </div>
 
             <button
               type="button"
@@ -188,7 +176,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
                 onRoleSwitch('pro');
                 onNavigate('dashboard');
               }}
-              className="w-full py-2.5 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] text-xs font-bold border border-[#CBD5E1] transition-colors flex items-center justify-center gap-2"
+              className="w-full py-2.5 rounded-xl bg-white hover:bg-slate-50 text-[#0F172A] text-xs font-bold border border-[#CBD5E1] transition-colors flex items-center justify-center gap-2.5"
             >
               <svg className="size-4" viewBox="0 0 24 24">
                 <path
@@ -212,14 +200,48 @@ export const LoginView: React.FC<LoginViewProps> = ({
             </button>
           </form>
 
-          <div className="text-center pt-2 border-t border-[#E2E8F0]">
+          <div className="text-center pt-2">
             <button
               type="button"
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-xs text-[#4F46E5] font-bold hover:underline"
+              className="text-xs text-[#4F46E5] font-semibold hover:underline"
             >
-              {isSignUp ? 'Already registered? Sign in' : 'Need an account? Start Free'}
+              {isSignUp
+                ? 'Already have an account? Log in'
+                : 'New to InvoiceFlow? Create an account'}
             </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column: Branded Visual Showcase (PDF Page 4) */}
+      <div className="lg:col-span-6 bg-[#0F172A] text-white p-8 sm:p-16 flex flex-col justify-center items-center relative overflow-hidden order-1 lg:order-2">
+        <div className="max-w-md w-full space-y-8">
+          {/* Testimonial Quote Card (PDF Page 4) */}
+          <div className="p-8 rounded-3xl bg-[#1E293B] border border-[#334155] space-y-5 shadow-xl">
+            <p className="text-base sm:text-lg text-white font-medium leading-relaxed">
+              "I used to chase payments for weeks. Now clients pay the same day they open the invoice."
+            </p>
+            <div>
+              <span className="font-bold text-sm text-white block">Maya Ellison</span>
+              <span className="text-xs text-[#94A3B8]">Brand designer, Wellington</span>
+            </div>
+          </div>
+
+          {/* Floating Payment Received Card (PDF Page 4) */}
+          <div className="p-5 rounded-2xl bg-[#1E293B] border border-[#334155] shadow-lg flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="size-10 rounded-full bg-[#DDF3E4] text-[#14532D] flex items-center justify-center shrink-0">
+                <CheckCircle2 className="size-5" />
+              </div>
+              <div>
+                <span className="font-bold text-xs text-white block">Payment received</span>
+                <span className="text-[11px] text-[#94A3B8]">Northwind Studio paid INV-0148</span>
+              </div>
+            </div>
+            <span className="font-extrabold text-base text-[#4ADE80] tabular-nums">
+              +$2,400
+            </span>
           </div>
         </div>
       </div>

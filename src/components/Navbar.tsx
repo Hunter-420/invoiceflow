@@ -27,8 +27,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navLinks = [
-    { id: 'landing', label: 'Overview' },
+  const isLanding = currentTab === 'landing';
+
+  const appNavLinks = [
     { id: 'dashboard', label: 'Dashboard' },
     { id: 'invoices', label: 'Invoices' },
     { id: 'clients', label: 'Clients' },
@@ -90,17 +91,17 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Main App Navigation */}
+      {/* Main App Navigation (PDF Page 1 & 2 Header) */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0]">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
-          {/* Brand */}
+          {/* Brand Logo [I] InvoiceFlow */}
           <button
             onClick={() => handleLinkClick('landing')}
             className="flex items-center gap-3 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#4F46E5] rounded-xl p-1 group"
             aria-label="InvoiceFlow Home"
           >
-            <div className="size-10 rounded-xl bg-[#4F46E5] flex items-center justify-center p-2 text-white shadow-sm group-hover:scale-105 transition-transform">
-              <FileText className="size-5" />
+            <div className="size-10 rounded-xl bg-[#4F46E5] flex items-center justify-center p-2 text-white shadow-sm group-hover:scale-105 transition-transform font-bold text-lg">
+              I
             </div>
             <div>
               <span className="block font-sans font-extrabold text-xl text-[#0F172A] tracking-tight leading-none">
@@ -112,36 +113,82 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </button>
 
-          {/* Desktop Nav Links */}
+          {/* Nav Links: If Landing, show PDF Page 1 links (Features, Pricing, Customers, Docs). Otherwise app links */}
           <nav className="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
-            {navLinks.map((link) => {
-              const isActive = currentTab === link.id;
-              return (
+            {isLanding ? (
+              <>
                 <button
-                  key={link.id}
-                  onClick={() => handleLinkClick(link.id)}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
-                    isActive
-                      ? 'bg-[#EEF2FF] text-[#4F46E5]'
-                      : 'text-[#475569] hover:bg-slate-100 hover:text-[#0F172A]'
-                  }`}
+                  onClick={() => handleLinkClick('landing')}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#0F172A] hover:bg-slate-100 transition-colors"
                 >
-                  {link.label}
+                  Features
                 </button>
-              );
-            })}
+                <button
+                  onClick={() => handleLinkClick('pricing')}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#475569] hover:bg-slate-100 hover:text-[#0F172A] transition-colors"
+                >
+                  Pricing
+                </button>
+                <button
+                  onClick={() => handleLinkClick('landing')}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#475569] hover:bg-slate-100 hover:text-[#0F172A] transition-colors"
+                >
+                  Customers
+                </button>
+                <button
+                  onClick={() => handleLinkClick('dashboard')}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-[#475569] hover:bg-slate-100 hover:text-[#0F172A] transition-colors"
+                >
+                  Docs
+                </button>
+              </>
+            ) : (
+              appNavLinks.map((link) => {
+                const isActive = currentTab === link.id;
+                return (
+                  <button
+                    key={link.id}
+                    onClick={() => handleLinkClick(link.id)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-colors ${
+                      isActive
+                        ? 'bg-[#EEF2FF] text-[#4F46E5]'
+                        : 'text-[#475569] hover:bg-slate-100 hover:text-[#0F172A]'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                );
+              })
+            )}
           </nav>
 
-          {/* Actions */}
+          {/* Actions: If Landing, show Log in & Start free (PDF Page 1). Otherwise New Invoice button */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => handleLinkClick('invoice-new')}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-primary transition-all active:scale-95"
-            >
-              <Plus className="size-4" />
-              <span className="hidden sm:inline">New Invoice</span>
-            </button>
+            {isLanding ? (
+              <>
+                <button
+                  onClick={() => handleLinkClick('login')}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-[#0F172A] hover:bg-slate-100 transition-colors"
+                >
+                  Log in
+                </button>
+                <button
+                  onClick={() => handleLinkClick('signup')}
+                  className="px-4 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-primary transition-all active:scale-95"
+                >
+                  Start free
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => handleLinkClick('invoice-new')}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-primary transition-all active:scale-95"
+              >
+                <Plus className="size-4" />
+                <span className="hidden sm:inline">New invoice</span>
+              </button>
+            )}
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -161,52 +208,84 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div>
               <div className="flex items-center justify-between pb-6 border-b border-[#E2E8F0]">
                 <div className="flex items-center gap-2">
-                  <div className="size-8 rounded-lg bg-[#4F46E5] flex items-center justify-center text-white">
-                    <FileText className="size-4" />
+                  <div className="size-8 rounded-lg bg-[#4F46E5] flex items-center justify-center text-white font-bold">
+                    I
                   </div>
                   <span className="font-bold text-lg text-[#0F172A]">InvoiceFlow</span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="size-8 rounded-lg bg-slate-100 flex items-center justify-center text-[#0F172A]"
-                  aria-label="Close drawer"
+                  className="size-8 rounded-lg bg-slate-100 flex items-center justify-center text-[#64748B]"
+                  aria-label="Close menu"
                 >
                   <X className="size-4" />
                 </button>
               </div>
 
-              <div className="py-4">
-                <span className="text-[11px] font-bold text-[#64748B] uppercase block mb-2">
-                  Demo User
-                </span>
-                <p className="text-xs font-bold text-[#0F172A]">{profile.fullName}</p>
-                <p className="text-[11px] text-[#64748B]">{profile.email}</p>
+              <div className="py-6 flex flex-col gap-2">
+                <button
+                  onClick={() => handleLinkClick('landing')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'landing' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Overview
+                </button>
+                <button
+                  onClick={() => handleLinkClick('dashboard')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'dashboard' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Dashboard
+                </button>
+                <button
+                  onClick={() => handleLinkClick('invoices')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'invoices' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Invoices
+                </button>
+                <button
+                  onClick={() => handleLinkClick('clients')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'clients' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Clients
+                </button>
+                <button
+                  onClick={() => handleLinkClick('billing')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'billing' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Billing
+                </button>
+                <button
+                  onClick={() => handleLinkClick('pricing')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'pricing' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Pricing
+                </button>
+                <button
+                  onClick={() => handleLinkClick('login')}
+                  className={`text-left px-4 py-3 rounded-xl text-sm font-bold ${
+                    currentTab === 'login' ? 'bg-[#EEF2FF] text-[#4F46E5]' : 'text-[#475569]'
+                  }`}
+                >
+                  Log in
+                </button>
               </div>
-
-              <nav className="flex flex-col gap-1 border-t border-[#E2E8F0] pt-4" aria-label="Mobile Navigation">
-                {navLinks.map((link) => {
-                  const isActive = currentTab === link.id;
-                  return (
-                    <button
-                      key={link.id}
-                      onClick={() => handleLinkClick(link.id)}
-                      className={`w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold transition-colors ${
-                        isActive
-                          ? 'bg-[#EEF2FF] text-[#4F46E5]'
-                          : 'text-[#475569] hover:bg-slate-100'
-                      }`}
-                    >
-                      {link.label}
-                    </button>
-                  );
-                })}
-              </nav>
             </div>
 
             <div className="pt-6 border-t border-[#E2E8F0]">
               <button
                 onClick={() => handleLinkClick('invoice-new')}
-                className="w-full py-3 rounded-xl bg-[#4F46E5] text-white text-xs font-bold text-center"
+                className="w-full py-3.5 rounded-xl bg-[#4F46E5] text-white text-xs font-bold uppercase tracking-wider shadow-primary"
               >
                 Create Invoice
               </button>
