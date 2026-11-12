@@ -30,8 +30,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ profile, onProfileUp
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-8 py-10 space-y-8">
-      <div className="border-b border-[#E2E8F0] pb-6">
+    <div className="max-w-3xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
+      <div className="border-b border-[#E2E8F0] pb-5">
         <span className="text-xs font-bold uppercase tracking-wider text-[#4F46E5]">
           Preferences
         </span>

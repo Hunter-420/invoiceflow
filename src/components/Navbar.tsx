@@ -93,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Main App Navigation (PDF Page 1 & 2 Header) */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 sm:h-18 flex items-center justify-between gap-4">
           {/* Brand Logo [I] InvoiceFlow */}
           <button
             onClick={() => handleLinkClick('landing')}

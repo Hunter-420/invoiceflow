@@ -54,9 +54,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6 sm:space-y-7">
       {/* Top Header (Figma node 4:2 / PDF Page 2) */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-5">
         <div>
           <h1 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A] tracking-tight">
             Good morning, {profile.fullName.split(' ')[0] || 'Nischal'}
@@ -168,12 +168,12 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
         </div>
 
         {/* Right Column: Needs attention */}
-        <div className="lg:col-span-4 bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-sm flex flex-col justify-between space-y-4">
+        <div className="lg:col-span-4 bg-white rounded-3xl p-6 border border-[#E2E8F0] shadow-sm flex flex-col space-y-4">
           <div className="border-b border-[#E2E8F0] pb-3">
             <h2 className="font-extrabold text-lg text-[#0F172A]">Needs attention</h2>
           </div>
 
-          <div className="space-y-3 flex-1 flex flex-col justify-around">
+          <div className="space-y-3 pt-1">
             {needsAttention.map((item) => {
               const isReminded = remindedList.includes(item.id);
               return (

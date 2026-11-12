@@ -73,7 +73,7 @@ export const PublicPayView: React.FC<PublicPayViewProps> = ({ invoice, onBack })
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-12 space-y-6">
+    <div className="max-w-xl mx-auto px-4 py-8 space-y-5">
       <button
         onClick={onBack}
         className="inline-flex items-center gap-1.5 text-xs font-bold text-[#4F46E5] hover:underline"
@@ -82,8 +82,8 @@ export const PublicPayView: React.FC<PublicPayViewProps> = ({ invoice, onBack })
         <span>Return to application</span>
       </button>
 
-      <div className="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-xl space-y-8">
-        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-6">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E2E8F0] shadow-xl space-y-6">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-4">
           <div>
             <span className="text-xs font-bold text-[#4F46E5] uppercase tracking-wider block">
               Secure Checkout
@@ -164,7 +164,7 @@ export const PublicPayView: React.FC<PublicPayViewProps> = ({ invoice, onBack })
               </button>
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#64748B]">
                 <Shield className="size-3.5 text-[#4F6B3A]" />
-                <span>Redirects to Stripe's secure test checkout page (Token configured in GitHub secrets)</span>
+                <span>Redirects to Stripe's secure checkout page</span>
               </div>
             </div>
 

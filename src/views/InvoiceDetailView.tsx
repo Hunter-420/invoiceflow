@@ -37,9 +37,9 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-8 py-10 space-y-6">
+    <div className="max-w-4xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
       {/* Top Action Bar (hidden on print) */}
-      <div className="flex flex-wrap items-center justify-between gap-4 print:hidden border-b border-[#E2E8F0] pb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 print:hidden border-b border-[#E2E8F0] pb-5">
         <button
           onClick={onBack}
           className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[#CBD5E1] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 transition-colors"

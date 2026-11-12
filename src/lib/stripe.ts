@@ -28,7 +28,7 @@ export async function createPlanCheckoutSession(
 ): Promise<CheckoutResult> {
   if (!STRIPE_RESTRICTED_KEY) {
     return {
-      error: 'Stripe restricted key is not configured in environment or GitHub secrets.',
+      error: 'Stripe test payment integration is not configured.',
     };
   }
 
@@ -99,7 +99,7 @@ export async function createPlanCheckoutSession(
 export async function createInvoiceCheckoutSession(invoice: Invoice): Promise<CheckoutResult> {
   if (!STRIPE_RESTRICTED_KEY) {
     return {
-      error: 'Stripe restricted key is not configured in environment or GitHub secrets.',
+      error: 'Stripe test payment integration is not configured.',
     };
   }
 

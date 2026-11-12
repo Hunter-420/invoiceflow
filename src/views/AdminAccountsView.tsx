@@ -36,7 +36,7 @@ export const AdminAccountsView: React.FC<AdminAccountsViewProps> = ({ onNavigate
   const accounts = InvoiceFlowStore.getAdminAccounts();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
       {/* Header */}
       <div className="border-b border-[#E2E8F0] pb-6">
         <span className="text-xs font-bold uppercase tracking-wider text-[#4F46E5]">

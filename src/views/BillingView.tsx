@@ -66,9 +66,9 @@ export const BillingView: React.FC<BillingViewProps> = ({
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-8">
+    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6 sm:space-y-7">
       {/* Header (Figma node 6:2 / PDF Page 3) */}
-      <div className="border-b border-[#E2E8F0] pb-6">
+      <div className="border-b border-[#E2E8F0] pb-5">
         <h1 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A]">
           Billing & subscription
         </h1>

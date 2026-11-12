@@ -34,7 +34,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
   return (
     <div className="min-h-[calc(100dvh-5rem)] grid grid-cols-1 lg:grid-cols-12 bg-white">
       {/* Left Column: Form Card (PDF Page 4) */}
-      <div className="lg:col-span-6 p-8 sm:p-16 flex items-center justify-center bg-white order-2 lg:order-1">
+      <div className="lg:col-span-6 p-6 sm:p-10 lg:p-12 flex items-center justify-center bg-white order-2 lg:order-1">
         <div className="max-w-md w-full space-y-7">
           <div className="space-y-2">
             <h1 className="font-extrabold text-3xl sm:text-4xl text-[#0F172A] tracking-tight">
@@ -215,7 +215,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
       </div>
 
       {/* Right Column: Branded Visual Showcase (PDF Page 4) */}
-      <div className="lg:col-span-6 bg-[#0F172A] text-white p-8 sm:p-16 flex flex-col justify-center items-center relative overflow-hidden order-1 lg:order-2">
+      <div className="lg:col-span-6 bg-[#0F172A] text-white p-6 sm:p-10 lg:p-12 flex flex-col justify-center items-center relative overflow-hidden order-1 lg:order-2">
         <div className="max-w-md w-full space-y-8">
           {/* Testimonial Quote Card (PDF Page 4) */}
           <div className="p-8 rounded-3xl bg-[#1E293B] border border-[#334155] space-y-5 shadow-xl">
