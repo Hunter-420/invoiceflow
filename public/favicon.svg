@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" rx="28" fill="#4F46E5" />
+  <!-- Minimalist dynamic invoice bill icon -->
+  <path d="M 30 25 L 70 25 C 74 25, 78 29, 78 33 L 78 75 L 70 69 L 62 75 L 54 69 L 46 75 L 38 69 L 30 75 L 22 69 L 22 33 C 22 29, 26 25, 30 25 Z" fill="#EEF2FF" />
+  <rect x="34" y="38" width="32" height="4" rx="2" fill="#4F46E5" />
+  <rect x="34" y="47" width="22" height="4" rx="2" fill="#818CF8" />
+  <rect x="34" y="56" width="14" height="4" rx="2" fill="#C7D2FE" />
+</svg>
