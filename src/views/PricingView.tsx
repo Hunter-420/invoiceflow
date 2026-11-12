@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Check, Shield, Zap, Sparkles, CreditCard, Lock, X } from 'lucide-react';
+import { Check, Shield, Zap, Sparkles, CreditCard, Lock, X, ExternalLink, Loader2 } from 'lucide-react';
 import { InvoiceFlowStore } from '../lib/store';
 import { PlanType, Subscription } from '../lib/types';
+import { createPlanCheckoutSession } from '../lib/stripe';
 
 interface PricingViewProps {
   onNavigate: (tab: string) => void;
@@ -18,6 +19,8 @@ export const PricingView: React.FC<PricingViewProps> = ({
   const [checkoutModalPlan, setCheckoutModalPlan] = useState<PlanType | null>(null);
   const [cardNumber, setCardNumber] = useState('4242 4242 4242 4242');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isStripeLoading, setIsStripeLoading] = useState(false);
+  const [stripeError, setStripeError] = useState<string | null>(null);
 
   const plans = [
     {
@@ -72,12 +75,35 @@ export const PricingView: React.FC<PricingViewProps> = ({
     },
   ];
 
-  const handleOpenCheckout = (plan: PlanType) => {
+  const handleStripeCheckout = async (plan: PlanType) => {
     if (plan === subscription.plan) {
       onNavigate('billing');
       return;
     }
-    setCheckoutModalPlan(plan);
+    if (plan === 'free') {
+      InvoiceFlowStore.upgradePlan('free');
+      onSubscriptionUpdate();
+      onNavigate('billing');
+      return;
+    }
+
+    setIsStripeLoading(true);
+    setStripeError(null);
+
+    try {
+      const res = await createPlanCheckoutSession(plan, isAnnual);
+      if (res.url) {
+        window.location.href = res.url;
+      } else {
+        setStripeError(res.error || 'Failed to initialize Stripe checkout. You can use the instant modal below.');
+        setCheckoutModalPlan(plan);
+      }
+    } catch (err) {
+      setStripeError('Network error connecting to Stripe. Fallback modal enabled.');
+      setCheckoutModalPlan(plan);
+    } finally {
+      setIsStripeLoading(false);
+    }
   };
 
   const handleCompleteTestCheckout = (e: React.FormEvent) => {
@@ -134,6 +160,18 @@ export const PricingView: React.FC<PricingViewProps> = ({
         </div>
       </div>
 
+      {stripeError && (
+        <div className="max-w-2xl mx-auto p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center justify-between">
+          <span>{stripeError}</span>
+          <button
+            onClick={() => setStripeError(null)}
+            className="font-bold underline ml-2"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       {/* Pricing Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
         {plans.map((p) => {
@@ -166,7 +204,7 @@ export const PricingView: React.FC<PricingViewProps> = ({
                     <span className="font-extrabold text-4xl text-[#0F172A] tabular-nums">
                       ${price}
                     </span>
-                    <span className="text-xs text-[#64748B]">/ month</span>
+                    <span className="text-xs text-[#64748B]">/ month {isAnnual && '(billed annually)'}</span>
                   </div>
                   <span className="text-xs text-[#4F46E5] font-semibold block">
                     {p.limits}
@@ -189,9 +227,9 @@ export const PricingView: React.FC<PricingViewProps> = ({
               <div className="pt-8">
                 <button
                   type="button"
-                  disabled={isCurrent}
-                  onClick={() => handleOpenCheckout(p.id)}
-                  className={`w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+                  disabled={isCurrent || isStripeLoading}
+                  onClick={() => handleStripeCheckout(p.id)}
+                  className={`w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
                     isCurrent
                       ? 'bg-slate-100 text-[#64748B] cursor-default border border-[#E2E8F0]'
                       : p.popular
@@ -199,7 +237,19 @@ export const PricingView: React.FC<PricingViewProps> = ({
                       : 'bg-[#EEF2FF] hover:bg-[#E0E7FF] text-[#4F46E5] border border-[#C7D2FE]'
                   }`}
                 >
-                  {isCurrent ? 'Current Active Plan' : p.cta}
+                  {isStripeLoading && !isCurrent ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      <span>Opening Stripe...</span>
+                    </>
+                  ) : isCurrent ? (
+                    'Current Active Plan'
+                  ) : (
+                    <>
+                      <span>{p.cta}</span>
+                      <ExternalLink className="size-3.5" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

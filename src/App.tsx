@@ -25,11 +25,12 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const syncHash = () => {
-      const hash = window.location.hash.replace('#', '').trim();
-      if (!hash) {
+      const rawHash = window.location.hash.replace('#', '').trim();
+      const tab = rawHash.split('?')[0];
+      if (!tab) {
         setCurrentTab('landing');
       } else {
-        setCurrentTab(hash);
+        setCurrentTab(tab);
       }
     };
 
@@ -56,6 +57,16 @@ export const App: React.FC = () => {
   };
 
   const renderView = () => {
+    // Dynamic path handling for invoice payment links: #pay/<id>
+    if (currentTab.startsWith('pay/')) {
+      const invId = currentTab.replace('pay/', '');
+      const inv =
+        InvoiceFlowStore.getInvoices().find((i) => i.id === invId) ||
+        selectedInvoice ||
+        InvoiceFlowStore.getInvoices()[0];
+      return <PublicPayView invoice={inv} onBack={() => handleNavigate('invoices')} />;
+    }
+
     switch (currentTab) {
       case 'landing':
         return <LandingView onNavigate={handleNavigate} />;
@@ -120,6 +131,16 @@ export const App: React.FC = () => {
           />
         );
       case 'login':
+        return <LoginView onNavigate={handleNavigate} onRoleSwitch={handleRoleSwitch} />;
+      case 'signup':
+        return (
+          <LoginView
+            initialSignUp={true}
+            onNavigate={handleNavigate}
+            onRoleSwitch={handleRoleSwitch}
+          />
+        );
+      case 'forgot-password':
         return <LoginView onNavigate={handleNavigate} onRoleSwitch={handleRoleSwitch} />;
       default:
         return <NotFoundView onNavigate={handleNavigate} />;

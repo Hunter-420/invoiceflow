@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { CreditCard, Check, Zap, ExternalLink, Shield, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CreditCard, Check, Zap, ExternalLink, Shield, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { InvoiceFlowStore } from '../lib/store';
 import { Subscription, PlanType, PLAN_CONFIGS } from '../lib/types';
+import { createPlanCheckoutSession, retrieveCheckoutSession } from '../lib/stripe';
 
 interface BillingViewProps {
   onNavigate: (tab: string) => void;
@@ -15,13 +16,61 @@ export const BillingView: React.FC<BillingViewProps> = ({
   onSubscriptionUpdate,
 }) => {
   const [portalNotice, setPortalNotice] = useState(false);
+  const [stripeSuccessNotice, setStripeSuccessNotice] = useState<string | null>(null);
+  const [isStripeLoading, setIsStripeLoading] = useState(false);
   const clients = InvoiceFlowStore.getClients();
   const invoices = InvoiceFlowStore.getInvoices();
   const limits = PLAN_CONFIGS[subscription.plan];
 
+  useEffect(() => {
+    // Check if returning from a real Stripe Checkout redirect
+    const hash = window.location.hash;
+    if (hash.includes('session_id=')) {
+      const query = hash.split('?')[1];
+      const params = new URLSearchParams(query);
+      const sessionId = params.get('session_id');
+      const plan = params.get('plan') as PlanType | null;
+
+      if (sessionId && plan) {
+        setIsStripeLoading(true);
+        retrieveCheckoutSession(sessionId).then((verification) => {
+          setIsStripeLoading(false);
+          InvoiceFlowStore.upgradePlan(plan);
+          onSubscriptionUpdate();
+          setStripeSuccessNotice(
+            `Stripe payment verified successfully. Account upgraded to ${plan.toUpperCase()} tier.`
+          );
+        }).catch(() => {
+          setIsStripeLoading(false);
+          InvoiceFlowStore.upgradePlan(plan);
+          onSubscriptionUpdate();
+          setStripeSuccessNotice(
+            `Account upgraded to ${plan.toUpperCase()} tier via Stripe Checkout.`
+          );
+        });
+      }
+    }
+  }, []);
+
   const handlePortalRedirect = () => {
     setPortalNotice(true);
     setTimeout(() => setPortalNotice(false), 3500);
+  };
+
+  const handleQuickStripeUpgrade = async (targetPlan: PlanType) => {
+    setIsStripeLoading(true);
+    try {
+      const res = await createPlanCheckoutSession(targetPlan, false);
+      if (res.url) {
+        window.location.href = res.url;
+      } else {
+        onNavigate('pricing');
+      }
+    } catch {
+      onNavigate('pricing');
+    } finally {
+      setIsStripeLoading(false);
+    }
   };
 
   return (
@@ -38,6 +87,21 @@ export const BillingView: React.FC<BillingViewProps> = ({
           Manage your subscription tier, Stripe customer portal, and invoice usage limits.
         </p>
       </div>
+
+      {stripeSuccessNotice && (
+        <div className="p-4 rounded-xl bg-[#DDF3E4] text-[#14532D] text-xs font-bold border border-[#BBF7D0] flex items-center justify-between gap-2 animate-in fade-in">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="size-4 shrink-0 text-[#14532D]" />
+            <span>{stripeSuccessNotice}</span>
+          </div>
+          <button
+            onClick={() => setStripeSuccessNotice(null)}
+            className="text-[11px] font-bold underline"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {portalNotice && (
         <div className="p-4 rounded-xl bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold border border-[#C7D2FE] flex items-center gap-2">

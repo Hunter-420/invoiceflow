@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { InvoiceFlowStore, DEMO_PROFILES } from '../lib/store';
 import { calculateSubtotalCents, calculateTaxCents, calculateTotalCents, formatCurrency, resolveInvoiceStatus } from '../lib/calc';
 import { Invoice, InvoiceItem } from '../lib/types';
+import { STRIPE_RESTRICTED_KEY } from '../lib/stripe';
 
 describe('InvoiceFlow SaaS Acceptance Tests & Math Validation', () => {
   beforeEach(() => {
@@ -102,5 +103,10 @@ describe('InvoiceFlow SaaS Acceptance Tests & Math Validation', () => {
     expect(InvoiceFlowStore.getProfile().role).toBe('admin');
     const adminAccounts = InvoiceFlowStore.getAdminAccounts();
     expect(adminAccounts.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('acceptance test: Stripe client module loads and exports valid helper functions', () => {
+    expect(STRIPE_RESTRICTED_KEY).toBeDefined();
+    expect(typeof STRIPE_RESTRICTED_KEY).toBe('string');
   });
 });

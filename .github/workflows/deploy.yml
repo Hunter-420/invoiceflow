@@ -34,6 +34,8 @@ jobs:
         run: npm test
 
       - name: Build production bundle
+        env:
+          VITE_STRIPE_RESTRICTED_KEY: ${{ secrets.VITE_STRIPE_RESTRICTED_KEY || secrets.STRIPE_RESTRICTED_KEY }}
         run: npm run build
 
       - name: Upload artifact
