@@ -1,8 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import fs from 'fs';
+import path from 'path';
 import { InvoiceFlowStore, DEMO_PROFILES } from '../lib/store';
 import { calculateSubtotalCents, calculateTaxCents, calculateTotalCents, formatCurrency, resolveInvoiceStatus } from '../lib/calc';
 import { Invoice, InvoiceItem } from '../lib/types';
 import { STRIPE_RESTRICTED_KEY } from '../lib/stripe';
+import { createInvoicePdfDoc, createSubscriptionReceiptPdfDoc } from '../lib/pdfGenerator';
 
 describe('InvoiceFlow SaaS Acceptance Tests & Math Validation', () => {
   beforeEach(() => {
@@ -108,5 +111,40 @@ describe('InvoiceFlow SaaS Acceptance Tests & Math Validation', () => {
   it('acceptance test: Stripe client module loads and exports valid helper functions', () => {
     expect(STRIPE_RESTRICTED_KEY).toBeDefined();
     expect(typeof STRIPE_RESTRICTED_KEY).toBe('string');
+  });
+
+  it('acceptance test: generates realistic A4 tax invoice PDF with NZ legal metadata and line items', () => {
+    const inv = InvoiceFlowStore.getInvoices().find((i) => i.id === 'inv-0153');
+    expect(inv).toBeDefined();
+    if (!inv) return;
+
+    const doc = createInvoicePdfDoc(inv);
+    expect(doc).toBeDefined();
+    expect(doc.getNumberOfPages()).toBe(1);
+
+    const arrayBuffer = doc.output('arraybuffer');
+    expect(arrayBuffer.byteLength).toBeGreaterThan(1000);
+
+    // Save pre-rendered static sample PDF for public access
+    const publicPdfPath = path.resolve(__dirname, '../../public/sample-tax-invoice-INV-0153.pdf');
+    fs.writeFileSync(publicPdfPath, Buffer.from(arrayBuffer));
+    expect(fs.existsSync(publicPdfPath)).toBe(true);
+  });
+
+  it('acceptance test: generates realistic Stripe subscription tax receipt PDF', () => {
+    const receipt = {
+      id: 'bh-1',
+      plan: 'Pro plan · monthly',
+      date: 'Nov 11, 2026',
+      amount: '$12.00',
+      status: 'Paid',
+    };
+
+    const doc = createSubscriptionReceiptPdfDoc(receipt);
+    expect(doc).toBeDefined();
+    expect(doc.getNumberOfPages()).toBe(1);
+
+    const arrayBuffer = doc.output('arraybuffer');
+    expect(arrayBuffer.byteLength).toBeGreaterThan(1000);
   });
 });

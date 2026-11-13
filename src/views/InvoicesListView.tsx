@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, Search, Filter, FileText, ArrowRight, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { Plus, Search, Filter, FileText, ArrowRight, CheckCircle2, Clock, AlertCircle, Download } from 'lucide-react';
 import { InvoiceFlowStore } from '../lib/store';
 import { Invoice, InvoiceStatus } from '../lib/types';
 import { formatCurrency, calculateSubtotalCents, calculateTaxCents, calculateTotalCents } from '../lib/calc';
+import { downloadInvoicePdf } from '../lib/pdfGenerator';
 
 interface InvoicesListViewProps {
   onNavigate: (tab: string) => void;
@@ -147,12 +148,23 @@ export const InvoicesListView: React.FC<InvoicesListViewProps> = ({
                       </span>
                     </td>
                     <td className="py-4 text-right">
-                      <button
-                        onClick={() => onSelectInvoice(inv)}
-                        className="px-3 py-1 rounded-lg border border-[#CBD5E1] text-[#0F172A] font-bold text-[11px] hover:bg-slate-100 transition-colors"
-                      >
-                        View & Pay
-                      </button>
+                      <div className="inline-flex items-center gap-1.5 justify-end">
+                        <button
+                          type="button"
+                          onClick={() => downloadInvoicePdf(inv)}
+                          title="Download Tax Invoice PDF"
+                          className="p-1.5 rounded-lg border border-[#CBD5E1] text-[#64748B] hover:text-[#4F46E5] hover:bg-slate-100 transition-colors"
+                        >
+                          <Download className="size-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => onSelectInvoice(inv)}
+                          className="px-3 py-1 rounded-lg border border-[#CBD5E1] text-[#0F172A] font-bold text-[11px] hover:bg-slate-100 transition-colors"
+                        >
+                          View & Pay
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );

@@ -3,6 +3,7 @@ import { CreditCard, Check, Zap, ExternalLink, Shield, AlertCircle, CheckCircle2
 import { InvoiceFlowStore } from '../lib/store';
 import { Subscription, PlanType, PLAN_CONFIGS } from '../lib/types';
 import { createPlanCheckoutSession, retrieveCheckoutSession } from '../lib/stripe';
+import { downloadSubscriptionReceiptPdf } from '../lib/pdfGenerator';
 
 interface BillingViewProps {
   onNavigate: (tab: string) => void;
@@ -235,7 +236,7 @@ export const BillingView: React.FC<BillingViewProps> = ({
                   {item.status}
                 </span>
                 <button
-                  onClick={() => window.print()}
+                  onClick={() => downloadSubscriptionReceiptPdf(item)}
                   className="inline-flex items-center gap-1 text-xs font-bold text-[#4F46E5] hover:underline"
                 >
                   <Download className="size-3.5" />

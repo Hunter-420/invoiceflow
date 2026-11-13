@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Printer, ExternalLink, Send, CheckCircle2, DollarSign } from 'lucide-react';
+import { ArrowLeft, Printer, ExternalLink, Send, CheckCircle2, DollarSign, Download, Eye } from 'lucide-react';
 import { Invoice } from '../lib/types';
 import { InvoiceFlowStore } from '../lib/store';
 import { formatCurrency, calculateSubtotalCents, calculateTaxCents, calculateTotalCents } from '../lib/calc';
+import { downloadInvoicePdf, openInvoicePdfPreview } from '../lib/pdfGenerator';
 
 interface InvoiceDetailViewProps {
   invoice: Invoice;
@@ -17,6 +18,7 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({
 }) => {
   const [currentInvoice, setCurrentInvoice] = useState<Invoice>(invoice);
   const [remindSuccess, setRemindSuccess] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
 
   const subtotalCents = calculateSubtotalCents(currentInvoice.items);
   const taxCents = calculateTaxCents(subtotalCents, currentInvoice.taxPercent);
@@ -24,6 +26,16 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleDownloadPdf = () => {
+    downloadInvoicePdf(currentInvoice);
+    setDownloadNotice(`Generated Tax-Invoice-${currentInvoice.number}.pdf (Standard A4)`);
+    setTimeout(() => setDownloadNotice(null), 4000);
+  };
+
+  const handlePreviewPdf = () => {
+    openInvoicePdfPreview(currentInvoice);
   };
 
   const handleSendReminder = () => {
@@ -48,11 +60,11 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({
           <span>Back to Invoices</span>
         </button>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5">
           {currentInvoice.status !== 'paid' && (
             <button
               onClick={handleMarkAsPaid}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#DDF3E4] text-[#14532D] text-xs font-bold hover:bg-[#BBF7D0] transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#DDF3E4] text-[#14532D] text-xs font-bold hover:bg-[#BBF7D0] transition-colors"
             >
               <CheckCircle2 className="size-4" />
               <span>Mark as Paid</span>
@@ -61,32 +73,57 @@ export const InvoiceDetailView: React.FC<InvoiceDetailViewProps> = ({
 
           <button
             onClick={() => onOpenPublicPay(currentInvoice)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold hover:bg-[#E0E7FF] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#C7D2FE] bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold hover:bg-[#E0E7FF] transition-colors"
           >
             <ExternalLink className="size-4" />
-            <span>Public Client Pay Link</span>
+            <span>Client Pay Link</span>
           </button>
 
           <button
             onClick={handleSendReminder}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#CBD5E1] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#CBD5E1] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 transition-colors"
           >
             <Send className="size-4 text-[#64748B]" />
             <span>Remind</span>
           </button>
 
           <button
+            onClick={handlePreviewPdf}
+            title="Preview vector PDF in browser tab"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#CBD5E1] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 transition-colors"
+          >
+            <Eye className="size-4 text-[#64748B]" />
+            <span>PDF Preview</span>
+          </button>
+
+          <button
             onClick={handlePrint}
+            title="Open browser print dialog"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#CBD5E1] bg-white text-xs font-bold text-[#0F172A] hover:bg-slate-50 transition-colors"
+          >
+            <Printer className="size-4 text-[#64748B]" />
+            <span>Print</span>
+          </button>
+
+          <button
+            onClick={handleDownloadPdf}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-sm transition-colors"
           >
-            <Printer className="size-4" />
-            <span>Download PDF / Print</span>
+            <Download className="size-4" />
+            <span>Download Tax PDF</span>
           </button>
         </div>
       </div>
 
+      {downloadNotice && (
+        <div className="p-3.5 rounded-xl bg-[#DDF3E4] text-[#14532D] text-xs font-bold border border-[#BBF7D0] flex items-center gap-2 animate-in fade-in">
+          <CheckCircle2 className="size-4 text-[#14532D]" />
+          <span>{downloadNotice}</span>
+        </div>
+      )}
+
       {remindSuccess && (
-        <div className="p-3.5 rounded-xl bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold border border-[#C7D2FE] flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-[#EEF2FF] text-[#4F46E5] text-xs font-bold border border-[#C7D2FE] flex items-center gap-2 animate-in fade-in">
           <CheckCircle2 className="size-4" />
           <span>Payment reminder email queued for {currentInvoice.clientEmail}</span>
         </div>

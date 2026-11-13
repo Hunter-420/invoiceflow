@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { CreditCard, CheckCircle2, Lock, ArrowLeft, Shield, ExternalLink, Loader2 } from 'lucide-react';
+import { CreditCard, CheckCircle2, Lock, ArrowLeft, Shield, ExternalLink, Loader2, Download } from 'lucide-react';
 import { Invoice } from '../lib/types';
 import { InvoiceFlowStore } from '../lib/store';
 import { formatCurrency, calculateSubtotalCents, calculateTaxCents, calculateTotalCents } from '../lib/calc';
 import { createInvoiceCheckoutSession, retrieveCheckoutSession } from '../lib/stripe';
+import { downloadInvoicePdf } from '../lib/pdfGenerator';
 
 interface PublicPayViewProps {
   invoice: Invoice;
@@ -122,6 +123,15 @@ export const PublicPayView: React.FC<PublicPayViewProps> = ({ invoice, onBack })
                 <span className="font-bold text-[#14532D]">SETTLED</span>
               </div>
             </div>
+
+            <button
+              type="button"
+              onClick={() => downloadInvoicePdf(currentInvoice)}
+              className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-colors shadow-sm"
+            >
+              <Download className="size-4" />
+              <span>Download Tax Invoice PDF</span>
+            </button>
           </div>
         ) : (
           <>
@@ -131,9 +141,19 @@ export const PublicPayView: React.FC<PublicPayViewProps> = ({ invoice, onBack })
                 <span className="text-xs font-bold text-[#4F46E5] block">Total Amount Due</span>
                 <span className="text-xs text-[#64748B]">Includes {currentInvoice.taxPercent}% GST</span>
               </div>
-              <span className="font-extrabold text-3xl text-[#4F46E5] tabular-nums">
-                {formatCurrency(totalCents)}
-              </span>
+              <div className="text-right">
+                <span className="font-extrabold text-3xl text-[#4F46E5] tabular-nums block">
+                  {formatCurrency(totalCents)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => downloadInvoicePdf(currentInvoice)}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#4F46E5] hover:underline mt-1"
+                >
+                  <Download className="size-3" />
+                  <span>Download PDF invoice</span>
+                </button>
+              </div>
             </div>
 
             {/* Stripe Checkout Primary Option */}
