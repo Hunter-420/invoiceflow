@@ -129,6 +129,15 @@ describe('InvoiceFlow SaaS Acceptance Tests & Math Validation', () => {
     const publicPdfPath = path.resolve(__dirname, '../../public/sample-tax-invoice-INV-0153.pdf');
     fs.writeFileSync(publicPdfPath, Buffer.from(arrayBuffer));
     expect(fs.existsSync(publicPdfPath)).toBe(true);
+
+    // Also generate sample paid invoice
+    const paidInv = InvoiceFlowStore.getInvoices().find((i) => i.id === 'inv-0152');
+    if (paidInv) {
+      const paidDoc = createInvoicePdfDoc(paidInv);
+      const paidPath = path.resolve(__dirname, '../../public/sample-tax-invoice-paid-INV-0152.pdf');
+      fs.writeFileSync(paidPath, Buffer.from(paidDoc.output('arraybuffer')));
+      expect(fs.existsSync(paidPath)).toBe(true);
+    }
   });
 
   it('acceptance test: generates realistic Stripe subscription tax receipt PDF', () => {
